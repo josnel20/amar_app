@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    container_name: amor_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: amor_app
+      DB_USERNAME: root
+      DB_PASSWORD: 1234
+    networks:
+      - amor
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: amor_app
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - amor
+
+networks:
+  amor:
+    driver: bridge
+
+volumes:
+  db_data:
