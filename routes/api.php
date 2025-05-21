@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'store']);
 Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
+//Route::middleware('auth')->group(function () {
     Route::controller(App\Http\Controllers\ProdutoController::class)->prefix('produtos')->group(function () {
         Route::get('/', 'index');
-        Route::get('/create', 'create');
-        Route::get('/{id}/edit', 'edit');
-        Route::put('/{id}', 'update');
-        Route::put('/{id}/inativar', 'inativar');
+        Route::get('/pesquisa/{id}', 'show');
+        Route::post('/criar', 'create');
+        Route::patch('/edit/{id}', 'update');
+        Route::put('/inativar/{id}', 'destroy');
     });
-});
+//});
