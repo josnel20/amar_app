@@ -44,7 +44,7 @@ class ProdutoController extends Controller
                 'custo' => $validated['custo'],
             ]);
 
-            $imagem = $produtoService->cadastrarImagem($validated['caminho'], $produto->id);
+            $imagem = $produtoService->cadastrarImagem($validated['imagem'], $produto->id);
             if (isset($imagem['aviso'])) {
                 return response()->json([ 'level' => false, 'message' => $imagem['aviso']], 422);
             }

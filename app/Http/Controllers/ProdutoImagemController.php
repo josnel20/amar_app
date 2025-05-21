@@ -21,13 +21,13 @@ class ProdutoImagemController extends Controller
     {
         $validated = $request->validate([
             'produto_id' => 'required|integer',
-            'caminho' => 'required|string',
+            'imagem' => 'required|string',
         ]);
 
         try {
             $imagem = ProdutoImagem::create([
                 'produto_id' => $validated['produto_id'],
-                'caminho' => $validated['caminho'],
+                'imagem' => $validated['imagem'],
             ]);
 
             return response()->json(['level' => true, 'message' => 'Imagem cadastrada com sucesso', 'data' => $imagem], 200);

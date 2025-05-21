@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('produto_imagens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
-            $table->string('caminho');
+            $table->string('imagem');
             $table->boolean('ativo')->default(true);
             $table->timestamps();
             $table->softDeletes();

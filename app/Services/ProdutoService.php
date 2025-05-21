@@ -26,7 +26,7 @@ class ProdutoService
             ],
             'preco_venda' => [$validaModo, 'numeric', 'min:0'],
             'custo' => [$validaModo, 'numeric', 'min:0'],
-            'caminho' => ['nullable', 'array', 'min:1'],
+            'imagem' => ['nullable', 'array', 'min:1'],
         ]);
 
         if ($validator->fails()) {
@@ -48,8 +48,8 @@ class ProdutoService
     public function cadastrarImagem(array $data, $idProduto)
     {
         if (! empty($data)) {
-            foreach ($data as $caminho) {
-                ProdutoImagem::create(['caminho' => $caminho, 'produto_id' => $idProduto,]);
+            foreach ($data as $imagem) {
+                ProdutoImagem::create(['imagem' => $imagem, 'produto_id' => $idProduto,]);
             }
         }
     }

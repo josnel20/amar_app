@@ -13,7 +13,11 @@ class ProdutoImagem extends Model
     protected $table = 'produto_imagens';
     protected $fillable = [
         'produto_id',
-        'caminho',
+        'imagem', // Só serão permitidas imagens jpg e png, porem no banco salvarei como string base64
+    ];
+
+    protected $casts = [
+        'ativo' => 'boolean',
     ];
 
     public function produto()
