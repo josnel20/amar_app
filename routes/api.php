@@ -13,5 +13,11 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
         Route::post('/criar', 'create');
         Route::patch('/edit/{id}', 'update');
         Route::put('/inativar/{id}', 'destroy');
+
+        Route::controller(App\Http\Controllers\ProdutoImagemController::class)->prefix('imagem')->group(function () {
+            Route::get('/{id}', 'show');
+            Route::post('/criar', 'create');
+            Route::delete('/apagar/{id}', 'destroy');
+        });
     });
 //});
