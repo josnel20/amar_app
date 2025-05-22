@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -26,10 +27,17 @@ class LoginController extends Controller
             }
 
             $user = Auth::user();
+            Log::info('Usuário fez login.', ['user_id' => $user->id]);
 
             return response()->json(['level' => true,'message' => 'Login realizado com sucesso!','data' => $user,'token' => $user->createToken('auth_token')->plainTextToken], 200);
         } catch (\Throwable $th) {
             return response()->json(['level' => false,'message' => 'Ocorreu um erro ao tentar fazer login.','error' => $th->getMessage()], 500);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['level' => false, 'message' => 'Logout realizado com sucesso.'], 200);
     }
 }
