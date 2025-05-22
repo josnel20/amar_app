@@ -31,4 +31,24 @@
   </div>
 </template>
 
-<script setup> </script>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth';
+
+const router = useRouter();
+const auth = useAuthStore();
+
+const email = ref('');
+const password = ref('');
+const error = ref('');
+
+const handleLogin = async () => {
+  try {
+    await auth.login(email.value, password.value);
+    router.push('/home');
+  } catch (err) {
+    error.value = err;
+  }
+};
+</script>
