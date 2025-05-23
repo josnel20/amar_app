@@ -21,6 +21,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const token = localStorage.getItem('token');
 const loggedUser = ref({});
+import { useAuthStore } from '../stores/auth';
+const auth = useAuthStore();
 
 //dados do user
 const fetchLoggedUser = async () => {
@@ -42,8 +44,7 @@ const fetchLoggedUser = async () => {
 };
   
 const logout = () => {
-    localStorage.removeItem('token');
-    router.push('/');
+    auth.logout();
 };
 
 onMounted(() => {

@@ -8,7 +8,8 @@ Route::get('/user', [App\Http\Controllers\UserController::class, 'index']);
 Route::post('/upload-img', [App\Http\Controllers\UploadController::class, 'upload']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    
+    Route::patch('/edit-user/{id}', [App\Http\Controllers\UserController::class, 'update']);
+
     Route::get('/me', function (Request $request) {
         return response()->json([
             'user' => $request->user()
