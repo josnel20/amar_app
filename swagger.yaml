@@ -1,0 +1,306 @@
+openapi: 3.0.3
+info:
+  title: API Laravel Exemplo
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000/api
+
+paths:
+  /login:
+    post:
+      summary: Login do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: admin@admin.com
+                password:
+                  type: string
+                  example: admin123
+      responses:
+        '200':
+          description: Login realizado com sucesso, retorna token e user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR...
+                  user:
+                    type: object
+        '401':
+          description: Credenciais inválidas
+
+  /logout:
+    post:
+      summary: Logout do usuário (requer autenticação)
+      security:
+        - sanctumAuth: []
+      responses:
+        '204':
+          description: Logout realizado com sucesso
+        '401':
+          description: Não autorizado - token inválido ou ausente
+
+  /user:
+    get:
+      summary: Lista de usuários (sem autenticação)
+      responses:
+        '200':
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /upload-img:
+    post:
+      summary: Upload de imagem
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Upload realizado com sucesso
+        '400':
+          description: Erro no upload
+
+  /edit-user/{id}:
+    patch:
+      summary: Atualiza usuário (autenticado)
+      security:
+        - sanctumAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário a ser atualizado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Usuário atualizado com sucesso
+        '401':
+          description: Não autorizado
+        '404':
+          description: Usuário não encontrado
+
+  /me:
+    get:
+      summary: Retorna o usuário autenticado
+      security:
+        - sanctumAuth: []
+      responses:
+        '200':
+          description: Dados do usuário autenticado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+        '401':
+          description: Não autorizado
+
+  /produtos/:
+    get:
+      summary: Lista todos produtos (autenticado)
+      security:
+        - sanctumAuth: []
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /produtos/pesquisa/{id}:
+    get:
+      summary: Pesquisa produto por ID (autenticado)
+      security:
+        - sanctumAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Produto não encontrado
+
+  /produtos/criar:
+    post:
+      summary: Cria novo produto (autenticado)
+      security:
+        - sanctumAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                preco:
+                  type: number
+      responses:
+        '201':
+          description: Produto criado
+        '400':
+          description: Dados inválidos
+
+  /produtos/edit/{id}:
+    patch:
+      summary: Atualiza produto (autenticado)
+      security:
+        - sanctumAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                preco:
+                  type: number
+      responses:
+        '200':
+          description: Produto atualizado
+        '404':
+          description: Produto não encontrado
+
+  /produtos/inativar/{id}:
+    put:
+      summary: Inativa produto (autenticado)
+      security:
+        - sanctumAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Produto inativado com sucesso
+        '404':
+          description: Produto não encontrado
+
+  /produtos/imagem/{id}:
+    get:
+      summary: Exibe imagem do produto (autenticado)
+      security:
+        - sanctumAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Imagem do produto
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Imagem não encontrada
+
+  /produtos/imagem/criar:
+    post:
+      summary: Cria nova imagem para produto (autenticado)
+      security:
+        - sanctumAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                produto_id:
+                  type: integer
+      responses:
+        '201':
+          description: Imagem criada
+        '400':
+          description: Erro no envio da imagem
+
+  /produtos/imagem/apagar/{id}:
+    delete:
+      summary: Apaga imagem do produto (autenticado)
+      security:
+        - sanctumAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Imagem apagada com sucesso
+        '404':
+          description: Imagem não encontrada
+
+components:
+  securitySchemes:
+    sanctumAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
