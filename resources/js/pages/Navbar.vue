@@ -6,7 +6,9 @@
         </div>
         
         <div class="flex items-center space-x-4">
-            <span class="text-gray-300 text-sm">Olá, {{ loggedUser.email || 'Usuário' }}</span>
+            <router-link to="/minha-conta" class="text-gray-300 text-sm hover:underline">
+                Olá, {{ loggedUser.email || 'Usuário' }}
+            </router-link>              
             <button @click="logout" class="hover:text-red-500 transition" title="Sair">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" >
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />

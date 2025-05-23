@@ -29,7 +29,7 @@ class LoginController extends Controller
                 return response()->json([ 'level' => false, 'message' => 'Credenciais inválidas.'], 401);
             }
 
-            $request->session()->regenerate();
+            //$request->session()->regenerate();
 
             $user = Auth::user();
 

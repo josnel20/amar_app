@@ -6,14 +6,14 @@
 
             <div class="flex justify-end mb-6">
                 <button @click="openModal"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-xl transition cursor-pointer">
+                    class="bg-sky-500/50 hover:bg-sky-600 text-white px-6 py-2 rounded-xl transition cursor-pointer">
                     + Adicionar Produto
                 </button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="{{ product.title }}">
-                <div v-for="(product, index) in products" :key="index"
-                    class="bg-white/10 backdrop-blur-lg rounded-3xl p-6 shadow-lg">
+                <div v-for="(product, index) in products" :key="index" class="bg-white/10 backdrop-blur-lg rounded-3xl p-6 shadow-lg">
+                   
                     <div class="mb-4">
                         <img v-if="product.images.length" :src="product.images[0]"
                             class="w-full h-48 object-cover rounded-xl" alt="Imagem do Produto" />
@@ -21,7 +21,7 @@
                             <span class="text-gray-400">Sem imagem</span>
                         </div>
                     </div>
-
+                    
                     <h2 class="text-xl text-white font-bold">{{ product.title }}</h2>
                     <label class="text-sm text-gray-300" v-html="product.description"></label>
 
@@ -31,12 +31,11 @@
                     </div>
 
                     <div class="mt-4 flex gap-2">
-                        <button @click="openEditModal(product)" class="bg-blue-500 px-3 py-1 rounded-lg text-white">
+                        <button @click="openEditModal(product)" class="bg-sky-500/50 hover:bg-sky-600 px-3 py-1 rounded-lg text-white cursor-pointer">
                             Editar
                           </button>
                           
-                        <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-xl"
-                            @click="inativarProduto(product.id)">
+                        <button @click="inativarProduto(product.id)" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-xl cursor-pointer">
                             Inativar
                         </button>
                     </div>
@@ -44,75 +43,46 @@
             </div>
         </div>
 
-        <!-- Modal para adiconas produtos -->
-        <div v-if="showModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-            <div class="bg-white rounded-3xl p-8 w-full max-w-lg relative">
-                <button @click="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-black">
+         <!-- Modal para adicionar produtos -->
+        <div v-if="showModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+            <div class="bg-white rounded-3xl p-8 w-full max-w-lg shadow-xl relative">
+
+                <button @click="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
                     &times;
                 </button>
-                <h2 class="text-2xl font-bold mb-6">Adicionar Produto</h2>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Adicionar Produto</h2>
 
                 <form @submit.prevent="addProduct" class="space-y-4">
+
                     <div>
-                        <label class="block mb-1 font-medium">Título</label>
-                        <input v-model="newProduct.title" type="text" class="w-full border rounded-lg px-4 py-2" required />
+                        <label class="block mb-1 text-sm text-gray-700 font-medium">Título</label>
+                        <input v-model="newProduct.title" type="text" required
+                            class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none"/>
                     </div>
-
-                    <!-- <div>
-              <label class="block mb-1 font-medium">Imagens</label>
-              <div class="space-y-2">
-                <div
-                  v-for="(image, index) in newProduct.images"
-                  :key="index"
-                  class="flex gap-2 items-center"
-                >
-                  <div class="flex-1">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      @change="uploadImages($event, index)"
-                      class="w-full border rounded-lg px-4 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    @click="removeImageField(index)"
-                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
-                  >
-                    ✕
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  @click="addImageField"
-                  class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl"
-                >
-                  + Adicionar Imagem
-                </button>
-              </div>
-            </div>-->
-
+                    
                     <div class="flex gap-4">
                         <div class="w-1/2">
-                            <label class="block mb-1 font-medium">Preço de Venda (Kz)</label>
-                            <input v-model="newProduct.salePrice" type="number" class="w-full border rounded-lg px-4 py-2"
-                                required />
+                            <label class="block mb-1 text-sm text-gray-700 font-medium">Preço de Venda (Kz)</label>
+                            <input v-model="newProduct.salePrice" type="number" required
+                                class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none"/>
                         </div>
+
                         <div class="w-1/2">
-                            <label class="block mb-1 font-medium">Custo (Kz)</label>
-                            <input v-model="newProduct.cost" type="number" class="w-full border rounded-lg px-4 py-2"
-                                required />
+                            <label class="block mb-1 text-sm text-gray-700 font-medium">Custo (Kz)</label>
+                            <input v-model="newProduct.cost" type="number" required
+                                class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none"/>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block mb-1 font-medium">Descrição</label>
-                        <textarea v-model="newProduct.description" class="w-full border rounded-lg px-4 py-2"
-                            rows="3"></textarea>
+                        <label class="block mb-1 text-sm text-gray-700 font-medium">Descrição</label>
+                        <textarea v-model="newProduct.description" rows="3"
+                            class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none resize-none"></textarea>
                     </div>
 
                     <button type="submit"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl transition">
+                        class="w-full bg-sky-600 hover:bg-sky-700 text-white px-4 py-3 rounded-xl transition">
                         Salvar Produto
                     </button>
                 </form>
@@ -120,32 +90,29 @@
         </div>
 
         <!-- Modal para editar produtos -->
-        <div v-if="isEditModalOpen" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-2xl p-6 w-full max-w-md">
-                <h2 class="text-xl font-bold mb-4">Editar Produto</h2>
+        <div v-if="isEditModalOpen" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+            <div class="bg-white rounded-3xl p-8 w-full max-w-md shadow-xl">
 
-                <div class="space-y-3">
-                    <input v-model="selectedProduct.title" type="text" placeholder="Título" class="w-full border p-2 rounded-lg"/>
-                    <textarea v-model="selectedProduct.description" placeholder="Descrição" class="w-full border p-2 rounded-lg">
-                    </textarea>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Editar Produto</h2>
 
-                    <input v-model="selectedProduct.salePrice" type="number" placeholder="Preço de Venda" class="w-full border p-2 rounded-lg"/>
-                    <input v-model="selectedProduct.cost" type="number" placeholder="Custo" class="w-full border p-2 rounded-lg"/>
+                <div class="space-y-4">
+                    <input v-model="selectedProduct.title" type="text" placeholder="Título" class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none"/>
+                    <textarea v-model="selectedProduct.description" placeholder="Descrição" class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none resize-none h-24"></textarea>
+                    <input v-model="selectedProduct.salePrice" type="number" placeholder="Preço de Venda" class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none"/>
+                    <input v-model="selectedProduct.cost" type="number" placeholder="Custo" class="w-full border border-gray-300 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 p-3 rounded-xl outline-none"/>
                 </div>
 
-                <div class="mt-4 flex justify-end gap-2">
+                <div class="mt-6 flex justify-end gap-3">
+                    <button @click="isEditModalOpen = false" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-xl transition">
+                        Cancelar
+                    </button>
 
-                <button class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded-lg" @click="isEditModalOpen = false">
-                    Cancelar
-                </button>
-
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg" @click="saveProductChanges">
-                    Salvar
-                </button>
+                    <button @click="saveProductChanges" class="bg-sky-600 hover:bg-sky-700 text-white px-5 py-2 rounded-xl transition">
+                        Salvar
+                    </button>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
   
@@ -189,7 +156,6 @@ const fetchProducts = async () => {
             id: data.id,
             title: data.titulo || 'Sem título',
             images: '',
-            //images: data.imagens ? data.imagens.map(img => `http://127.0.0.1:8000/storage/imgs/${img.imagem}`) : [],
             salePrice: data.preco_venda || 0,
             cost: data.custo || 0,
             description: data.descricao || '',
@@ -209,10 +175,6 @@ const addProduct = async () => {
         formData.append('descricao', newProduct.value.description);
         formData.append('preco_venda', newProduct.value.salePrice);
         formData.append('custo', newProduct.value.cost);
-
-        //for (const file of newProduct.value.images) {
-        //formData.append('imagens[]', file);
-        //}
 
         await fetchPostProducts(formData);
 
@@ -299,33 +261,9 @@ const saveProductChanges = async () => {
 };
 
 // imagens
-const addImageField = () => {
-    newProduct.value.images.push(null);
+const handleFileUpload = (event) => {
+    this.newProduct.images = Array.from(event.target.files);
 };
-const removeImageField = (index) => {
-    newProduct.value.images.splice(index, 1);
-};
-async function uploadImages(files) {
-    const formData = new FormData();
-    formData.append('imagem', files[0]);
-
-    try {
-        const response = await axios.post('http://127.0.0.1:8000/upload-img',
-            formData,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-        );
-        console.log('Upload sucrsso:', response.data);
-        return response.data.url;
-    } catch (error) {
-        console.error('Erro no upload:', error.response ? error.response.data : error);
-        throw error;
-    }
-}
 
 //modal
 const openModal = () => {
