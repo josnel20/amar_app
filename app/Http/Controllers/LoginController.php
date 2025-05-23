@@ -27,7 +27,6 @@ class LoginController extends Controller
             }
 
             $user = Auth::user();
-            Log::info('Usuário fez login.', ['user_id' => $user->id]);
 
             return response()->json(['level' => true,'message' => 'Login realizado com sucesso!','data' => $user,'token' => $user->createToken('auth_token')->plainTextToken], 200);
         } catch (\Throwable $th) {
