@@ -1,5 +1,5 @@
 # Sistema de Cadastro de Produtos
-## Descrição do Teste
+## Descrição
 
 Este projeto é um sistema de cadastro de produtos com as seguintes características:
 
