@@ -89,6 +89,7 @@ const fetchLoggedUser = async () => {
       const response = await res.json();
       loggedUser.value = response.user;
    } catch (error) {
+      alert('Erro: Não foi possível capturar dados do usuário');
       console.error('Erro ao buscar usuário logado:', error);
    }
 };

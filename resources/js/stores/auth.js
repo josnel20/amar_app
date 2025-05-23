@@ -6,8 +6,18 @@ import { useRouter } from 'vue-router';
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
-  const user = ref(JSON.parse(localStorage.getItem('user')) || null);
+  function loadUser() {
+    try {
+      const item = localStorage.getItem('user');
+      return item && item !== 'undefined' ? JSON.parse(item) : null;
+    } catch (e) {
+      console.error('Erro ao fazer parse do user no localStorage', e);
+      localStorage.removeItem('user');
+      return null;
+    }
+  }
 
+  const user = ref(loadUser());
   const isAuthenticated = computed(() => !!user.value);
 
   async function login(email, password) {
@@ -15,6 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await api.post('/login', { email, password });
       user.value = response.data.user;
       localStorage.setItem('user', JSON.stringify(user.value));
+      router.push('/home');
     } catch (error) {
       throw error.response?.data?.message || 'Erro no login';
     }
@@ -24,24 +35,13 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await api.get('/me');
       user.value = response.data;
+
+    
       localStorage.setItem('user', JSON.stringify(user.value));
     } catch (error) {
       await logout();
     }
   }
 
-  async function logout() {
-    try {
-      await api.post('/logout');
-      
-    } catch (error) {
-      console.error('Erro no logout:', error);
-    } finally {
-      user.value = null;
-      localStorage.removeItem('user');
-      router.push('/');
-    }
-  }
-
-  return { user, isAuthenticated, login, fetchUser, logout };
+  return { user, isAuthenticated, login, fetchUser };
 });

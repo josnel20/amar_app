@@ -218,7 +218,9 @@ const addProduct = async () => {
 
         closeModal();
         fetchProducts();
+        alert('Sucesso: Produto adicionado com sucesso');
     } catch (error) {
+        alert('Erro: Não foi possível adicionar novo Produto');
         console.error(error);
     }
 };
@@ -259,9 +261,10 @@ const inativarProduto = async (id) => {
         const response = await res.json();
         // implementar toast 
         fetchProducts();
+        alert('Sucesso: Produto Desativado com sucesso');
     } catch (error) {
         console.error(error);
-        showErrorToast('Erro ao inativar produto');
+        alert('Erro: Não foi possível Desativado Produto');
     }
 };
 // Editar prodtuto
@@ -288,10 +291,10 @@ const saveProductChanges = async () => {
         // implementar toast 
         isEditModalOpen.value = false;
         fetchProducts();
-
+        alert('Sucesso: Produto atualizado com sucesso');
     } catch (error) {
         console.error(error);
-        showErrorToast('Erro ao editar produto');
+        alert('Erro: Não foi possível editar Produto');
     }
 };
 
@@ -338,10 +341,6 @@ const closeModal = () => {
         description: '',
     };
 };
-
-async function logout() {
-    console.log('fazer no final o logout...');
-}
 
 onMounted(() => {
     fetchProducts();

@@ -48,6 +48,7 @@ const handleLogin = async () => {
     await auth.login(email.value, password.value);
     router.push('/home');
   } catch (err) {
+    alert('Erro ao Fazer login');
     error.value = err;
   }
 };

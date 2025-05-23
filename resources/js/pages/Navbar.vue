@@ -23,28 +23,51 @@ const token = localStorage.getItem('token');
 const loggedUser = ref({});
 import { useAuthStore } from '../stores/auth';
 const auth = useAuthStore();
+const userLogado = '';
 
 //dados do user
 const fetchLoggedUser = async () => {
     try {
-    const res = await fetch('http://127.0.0.1:8000/api/me', {
-        headers: {
-        Authorization: `Bearer ${token}`,
-        },
-    });
+        const res = await fetch('http://127.0.0.1:8000/api/me', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    if (!res.ok) throw new Error('Erro ao buscar dados do usuário');
+        if (!res.ok) throw new Error('Erro ao buscar dados do usuário');
 
-    const response = await res.json();
+        const response = await res.json();
 
-    loggedUser.value = response.user;
+        loggedUser.value = response.user;
     } catch (error) {
-    console.error('Erro ao buscar usuário logado:', error);
+        alert('Erro ao buscar dados do usuário');
+        console.error('Erro ao buscar usuário logado:', error);
     }
 };
-  
-const logout = () => {
-    auth.logout();
+
+const logout = async () => {
+    try {
+        const res = await fetch('http://127.0.0.1:8000/api/logout', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+      
+        if (!res.ok) {
+            const errorData = await res.json();
+            console.error('Erro no logout:', errorData);
+            throw new Error(errorData.message || 'Erro ao fazer logout');
+        }
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        router.push('/');
+    } catch (error) {
+        console.error('Erro no logout:', error);
+        alert('Erro ao fazer logout. Tente novamente.');
+    }
 };
 
 onMounted(() => {
