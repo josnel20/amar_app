@@ -20,7 +20,7 @@
        </div>
  
        <div class="flex gap-4 mt-8">
-         <button @click="showModal = true" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-xl transition duration-300">
+         <button @click="showModal = true" class="w-full bg-sky-500/50 hover:bg-sky-600 text-white font-semibold py-2 rounded-xl transition duration-300">
            Editar Perfil
          </button>
        </div>
